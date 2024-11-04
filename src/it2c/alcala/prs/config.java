@@ -36,10 +36,9 @@ public class config {
         }
     }
 
-    void addRecord(String sql, String fname, String lname, String purok, String status) {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+   
 
+  
  public void viewRecords(String sqlQuery, String[] columnHeaders, String[] columnNames) {
         // Check that columnHeaders and columnNames arrays are the same length
         if (columnHeaders.length != columnNames.length) {

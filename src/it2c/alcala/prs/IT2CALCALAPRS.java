@@ -45,8 +45,12 @@ public class IT2CALCALAPRS {
         
         switch(action){
             case 1:
-           Citizen cs = new Citizen();
+          Citizen cs = new Citizen();
             cs. citizen();
+            break;
+             case 2:
+         Activities ac = new Activities();
+           ac. activity();
             break;
             
             case 5:
@@ -59,12 +63,10 @@ public class IT2CALCALAPRS {
             break;
         }
         
-            System.out.println("Do you ");
+          
       }while(exit);
         
-        
-        
-        
+
         
         
         
