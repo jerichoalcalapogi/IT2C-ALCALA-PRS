@@ -57,23 +57,23 @@ public class Activities {
        
         System.out.print (" Activity Name: ");
         String aname = sc.next();
-        System.out.print (" Activity Date: ");
-        String adate = sc.next();
+        System.out.print (" Activity Time: ");
+        String atime = sc.next();
         System.out.print (" Location: ");
         String loc = sc.next();
         System.out.print (" Activity Sponsor: ");
         String asponsor = sc.next();
        
 
-        String sql = "INSERT INTO activity (a_name, a_date, a_location,a_sponsor) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO activity (a_name, a_time, a_location,a_sponsor) VALUES (?, ?, ?, ?)";
 
          config conf = new config();
-        conf.addRecord(sql, aname, adate, loc,asponsor);
+        conf.addRecord(sql, aname, atime, loc,asponsor);
     }    
        public void viewActivity() {
         String citizenQuery = "SELECT * FROM activity";
-        String [] citizenHeaders = {"ID","Activity Name","Date","Location", "Sponsor"};
-        String[] citizenColumns = {"a_id", "a_name", "a_date","a_location", "a_sponsor"};
+        String [] citizenHeaders = {"ID","Activity Name","Time","Location", "Sponsor"};
+        String[] citizenColumns = {"a_id", "a_name", "a_time","a_location", "a_sponsor"};
        config conf = new config();
        conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);
     }
@@ -90,8 +90,8 @@ public class Activities {
           }
         System.out.println ("Enter new Activity Name:");
         String naname= sc.next();
-        System.out.println ("Enter new Date:");
-        String nadate= sc.next();
+        System.out.println ("Enter new Time:");
+        String natime= sc.next();
         System.out.println ("Enter new Location:");
         String nloc= sc.next();
         System.out.println ("Enter new Sponsor:");
@@ -99,10 +99,10 @@ public class Activities {
       
 
 
-        String qry = "UPDATE activity SET a_name = ?,a_date = ?, a_location = ?, a_sponsor = ? WHERE a_id = ?";
+        String qry = "UPDATE activity SET a_name = ?,a_time = ?, a_location = ?, a_sponsor = ? WHERE a_id = ?";
 
     
-        conf.updateRecord(qry, naname,nadate,nloc,nasponsor);
+        conf.updateRecord(qry, naname,natime,nloc,nasponsor);
 
        }
           private void deleteActivity(){
