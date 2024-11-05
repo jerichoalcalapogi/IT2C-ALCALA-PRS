@@ -14,7 +14,7 @@ public class config {
         try {
             Class.forName("org.sqlite.JDBC"); 
             con = DriverManager.getConnection("jdbc:sqlite:jericho.db"); 
-            System.out.println("Connection Successful");
+            
         } catch (Exception e) {
             System.out.println("Connection Failed: " + e);
         }

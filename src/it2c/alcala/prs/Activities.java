@@ -16,9 +16,9 @@ public class Activities {
         System.out.println("2.VIEW  ACTIVITY");
         System.out.println("3.UPDATE ACTIVITY");
         System.out.println("4.DELETE  ACTIVITY");
-        System.out.println("5,EXIT");
+        System.out.println("5. EXIT");
         
-        System.out.println("Enter Selection");
+        System.out.println("Enter Selection:");
         int act = sc.nextInt();
         
        Activities ac =new Activities();
@@ -45,7 +45,7 @@ public class Activities {
                 break;
             
         }
-        System.out.println("Do you want to continue?(yes/no)");
+        System.out.println("Do you want to continue?(yes/no):");
         response = sc.next();
         
         
@@ -70,7 +70,7 @@ public class Activities {
          config conf = new config();
         conf.addRecord(sql, aname, adate, loc,asponsor);
     }    
-       private void viewActivity() {
+       public void viewActivity() {
         String citizenQuery = "SELECT * FROM activity";
         String [] citizenHeaders = {"ID","Activity Name","Date","Location", "Sponsor"};
         String[] citizenColumns = {"a_id", "a_name", "a_date","a_location", "a_sponsor"};

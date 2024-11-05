@@ -12,7 +12,7 @@ public class Citizen {
         String response;
         do{
         System.out.println("\n----------------------");
-        System.out.println("ACTIVITY PANEL");
+        System.out.println("WELCOME TO CITIZEN PANEL");
         System.out.println("1.ADD CITIZEN");
         System.out.println("2.VIEW  CITIZEN");
         System.out.println("3.UPDATE  CITIZEN");
@@ -47,7 +47,7 @@ public class Citizen {
                 break;
             
         }
-        System.out.println("Do you want to continue?(yes/no)");
+        System.out.println("Do you want to continue?(yes/no):");
         response = sc.next();
         
         
@@ -78,7 +78,7 @@ public class Citizen {
 
     }
     
-     private void viewCitizen() {
+   public void viewCitizen() {
         String citizenQuery = "SELECT * FROM citizen";
         String [] citizenHeaders = {"ID","First Name","Last Name","Purok", "Contact","Status"};
         String[] citizenColumns = {"s_id", "f_name", "l_name","e_purok", "s_contact", "e_status"};
