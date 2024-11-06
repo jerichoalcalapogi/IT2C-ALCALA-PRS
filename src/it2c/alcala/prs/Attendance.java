@@ -23,14 +23,23 @@ public class Attendance {
             Attendance att = new Attendance();
             switch (act) {
                 case 1:
-                    att.addAttendance();
+                   att.addAttendance();
                     break;
                 case 2:
                    att.viewAttendance();
                     break;
-                case 5:
-                    System.out.println("Exiting...");
-                    return; 
+                case 3:
+                   att.viewAttendance();
+                   att.updateAttendance();
+                   att.viewAttendance();
+                       case 4:
+                   att.viewAttendance();
+                   att.deleteAttendance();
+                   att.viewAttendance();
+               case 5:
+                
+                break;
+            
             }
             System.out.print("Do you want to continue? (yes/no): ");
             response = sc.next();
@@ -70,12 +79,10 @@ public class Attendance {
     String datee = sc.nextLine();
     System.out.print("Enter status (present/absent): ");
     String status = sc.nextLine();
-     System.out.println("Total attendees");
-
+    
     
     String attqry = "INSERT INTO attendance (s_id, a_id, att_date, att_status) VALUES (?, ?, ?, ?)";
     
-    // Update this line to pass the correct types: cid, aid are integers; datee and status are strings; totalAttendees is integer
     conf.addRecord(attqry, String.valueOf(cid), String.valueOf(aid), datee, status);
     System.out.println("Attendance added successfully!");
 }
@@ -90,4 +97,40 @@ public class Attendance {
        config conf = new config();
        conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);
     }
+   private void updateAttendance(){
+    Scanner sc= new Scanner(System.in);   
+    config conf = new config();
+        System.out.println  ("Enter Attendance ID:");
+        int id = sc.nextInt();
+            
+          while(conf.getSingleValue("SELECT att_id FROM attendance  WHERE att_id=?  ",id)==0){
+              System.out.println("Selected ID doesn't exist");
+              System.out.println("Select Attendance ID Again");
+              id=sc.nextInt();
+          }
+        System.out.println ("Enter new Attendance date :");
+        String attdate= sc.next();
+        System.out.println ("Enter new Status:");
+        String attstat= sc.next();
+         String qry = "UPDATE attendance SET att_date = ?,att_status = ?  WHERE att_id = ?";
+
+    
+        conf.updateRecord(qry, attdate,attstat);      
+   }
+         private void deleteAttendance(){
+
+        Scanner sc= new Scanner(System.in);   
+         config conf = new config();
+           System.out.println("Enter attendance ID to delete:");
+           int id = sc.nextInt();
+            while(conf.getSingleValue("SELECT att_id FROM attendance  WHERE att_id=?  ",id)==0){
+              System.out.println("Selected ID doesn't exist");
+              System.out.println("Select Attendance ID Again");
+              id=sc.nextInt();
+          }
+
+          String sqlDelete = "DELETE FROM attendance  WHERE att_id=?";
+          
+           conf.deleteRecord(sqlDelete, id);
+      }
 }

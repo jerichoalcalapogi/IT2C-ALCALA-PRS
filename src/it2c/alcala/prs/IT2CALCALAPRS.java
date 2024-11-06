@@ -33,10 +33,10 @@ public class IT2CALCALAPRS {
             ac.activity();
             break;
       case 3:
-             Attendance att = new Attendance();
+            Attendance att = new Attendance();
             att.Aimplementation();
             break;
-            
+                        
             case 5:
                 System.out.println("Exit Selected...type 'yes' to continue");
                 String resp=sc.next();

@@ -48,8 +48,9 @@ public class Activities {
         System.out.println("Do you want to continue?(yes/no):");
         response = sc.next();
         
-        
-        
+           if (response.equalsIgnoreCase("no")) {
+            System.out.println("Going back to the main menu...");
+           } 
     }while(response.equalsIgnoreCase("yes"));
      }
       public void addActivity(){
@@ -85,7 +86,7 @@ public class Activities {
             
           while(conf.getSingleValue("SELECT a_id FROM activity  WHERE a_id=?  ",id)==0){
               System.out.println("Selected ID doesn't exist");
-              System.out.println("Select Activity ID Again");
+              System.out.println("Select Activity ID Again:");
               id=sc.nextInt();
           }
         System.out.println ("Enter new Activity Name:");
@@ -113,7 +114,7 @@ public class Activities {
            int id = sc.nextInt();
             while(conf.getSingleValue("SELECT a_id FROM activity  WHERE a_id=?  ",id)==0){
               System.out.println("Selected ID doesn't exist");
-              System.out.println("Select Activity ID Again");
+              System.out.println("Select Activity ID Again:");
               id=sc.nextInt();
           }
 

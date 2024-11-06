@@ -17,9 +17,9 @@ public class Citizen {
         System.out.println("2.VIEW  CITIZEN");
         System.out.println("3.UPDATE  CITIZEN");
         System.out.println("4.DELETE  CITIZEN");
-        System.out.println("5,EXIT");
+        System.out.println("5. EXIT");
         
-        System.out.println("Enter Selection");
+        System.out.println("Enter Selection:");
         int act = sc.nextInt();
         
         Citizen cs =new Citizen();
@@ -49,9 +49,11 @@ public class Citizen {
         }
         System.out.println("Do you want to continue?(yes/no):");
         response = sc.next();
+      
+        if (response.equalsIgnoreCase("no")) {
+            System.out.println("Going back to the main menu...\n");
         
-        
-        
+        }  
     }while(response.equalsIgnoreCase("yes"));
         
    }
@@ -93,7 +95,7 @@ public class Citizen {
             
           while(conf.getSingleValue("SELECT s_id FROM citizen  WHERE s_id=?  ",id)==0){
               System.out.println("Selected ID doesn't exist");
-              System.out.println("Select Citizen ID Again");
+              System.out.println("Select Citizen ID Again:");
               id=sc.nextInt();
           }
         System.out.println ("Enter new First Name:");
@@ -122,7 +124,7 @@ public class Citizen {
            int id = sc.nextInt();
             while(conf.getSingleValue("SELECT s_id FROM citizen  WHERE s_id=?  ",id)==0){
               System.out.println("Selected ID doesn't exist");
-              System.out.println("Select Citizen ID Again");
+              System.out.println("Select Citizen ID Again:");
               id=sc.nextInt();
           }
 
