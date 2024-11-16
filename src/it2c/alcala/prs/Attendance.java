@@ -105,7 +105,7 @@ public class Attendance {
             
           while(conf.getSingleValue("SELECT att_id FROM attendance  WHERE att_id=?  ",id)==0){
               System.out.println("Selected ID doesn't exist");
-              System.out.println("Select Attendance ID Again");
+              System.out.println("Select Attendance ID Again:");
               id=sc.nextInt();
           }
         System.out.println ("Enter new Attendance date :");
@@ -125,7 +125,7 @@ public class Attendance {
            int id = sc.nextInt();
             while(conf.getSingleValue("SELECT att_id FROM attendance  WHERE att_id=?  ",id)==0){
               System.out.println("Selected ID doesn't exist");
-              System.out.println("Select Attendance ID Again");
+              System.out.println("Select Attendance ID Again:");
               id=sc.nextInt();
           }
 
