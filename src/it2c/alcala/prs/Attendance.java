@@ -18,10 +18,22 @@ public class Attendance {
             System.out.println("3.UPDATE ATTENDANCE");
             System.out.println("4.DELETE ATTENDANCE");
             System.out.println("5.EXIT");
-            System.out.print("Enter Selection: ");
-            int act = sc.nextInt();
+             int action;
+         while (true) {
+                System.out.print("Enter Selection: ");
+                if (sc.hasNextInt()) {
+                    action = sc.nextInt();
+                    if (action >= 1 && action <= 5) {
+                        break; 
+                    }
+                } else {
+                    sc.next(); 
+                }
+                System.out.println("Invalid selection,Please enter a number between 1 and 5 only.");
+            }
+        
             Attendance att = new Attendance();
-            switch (act) {
+            switch (action) {
                 case 1:
                    att.addAttendance();
                     break;
@@ -32,6 +44,7 @@ public class Attendance {
                    att.viewAttendance();
                    att.updateAttendance();
                    att.viewAttendance();
+                   break;
                        case 4:
                    att.viewAttendance();
                    att.deleteAttendance();
@@ -73,12 +86,31 @@ public class Attendance {
         aid = sc.nextInt();
     }
 
+     String datee,status;
+    
+
+    
+    while (true) {
+        System.out.print("Enter attendance date (YYYY-MM-DD): ");
+        datee = sc.next(); // Use nextLine() for date input
+        if (datee.matches("\\d{4}-\\d{2}-\\d{2}")) { 
+            break; 
+        } else {
+            System.out.println("Invalid date format. Please enter date in YYYY-MM-DD format.");
+        }
+    }
+
    
-    sc.nextLine();
-    System.out.print("Enter attendance date (YYYY-MM-DD): "); 
-    String datee = sc.nextLine();
-    System.out.print("Enter status (present/absent): ");
-    String status = sc.nextLine();
+    while (true) {
+        System.out.print("Status (Present/Absent): ");
+        status = sc.next(); // Use nextLine() for status input
+        if (status.equalsIgnoreCase("Present") || status.equalsIgnoreCase("Absent")) {
+            break; 
+        } else {
+            System.out.println("Invalid input. Please enter Present/Absent.");
+        }
+    }
+    
     
     
     String attqry = "INSERT INTO attendance (s_id, a_id, att_date, att_status) VALUES (?, ?, ?, ?)";
@@ -86,6 +118,11 @@ public class Attendance {
     conf.addRecord(attqry, String.valueOf(cid), String.valueOf(aid), datee, status);
     System.out.println("Attendance added successfully!");
 }
+     
+     
+
+    
+ 
   private void viewAttendance() {
     
         String citizenQuery = "SELECT att_id,l_name,a_name,a_time,a_location,att_date,att_status FROM attendance " 
@@ -108,15 +145,37 @@ public class Attendance {
               System.out.println("Select Attendance ID Again:");
               id=sc.nextInt();
           }
-        System.out.println ("Enter new Attendance date :");
-        String attdate= sc.next();
-        System.out.println ("Enter new Status:");
-        String attstat= sc.next();
+       String attdate,attstat;
+    
+
+    
+    while (true) {
+        System.out.print("Enter new attendance date (YYYY-MM-DD): ");
+       attdate = sc.next(); // 
+        if (attdate.matches("\\d{4}-\\d{2}-\\d{2}")) { 
+            break; 
+        } else {
+            System.out.println("Invalid date format. Please enter date in YYYY-MM-DD format.");
+        }
+    }
+
+   
+    while (true) {
+        System.out.print("Enter new Status (Present/Absent): ");
+       attstat = sc.next(); 
+        if (attstat.equalsIgnoreCase("Present") || attstat.equalsIgnoreCase("Absent")) {
+            break; 
+        } else {
+            System.out.println("Invalid input. Please enter Present/Absent.");
+        }
+    }
+    
          String qry = "UPDATE attendance SET att_date = ?,att_status = ?  WHERE att_id = ?";
 
     
-        conf.updateRecord(qry, attdate,attstat);      
+        conf.updateRecord(qry, attdate,attstat,id);      
    }
+   
          private void deleteAttendance(){
 
         Scanner sc= new Scanner(System.in);   

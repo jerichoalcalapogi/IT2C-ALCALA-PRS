@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.util.Scanner;
 
 
-
 public class Reports {
    public void showReportsMenu() {
         Scanner sc = new Scanner(System.in);
@@ -14,18 +13,18 @@ public class Reports {
         do {
             System.out.println("\n========== REPORTS MENU ==========");
             System.out.println("1. Individual Citizen Report");
-            System.out.println("2. Summary Report");
+            System.out.println("2. General Report");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
 
             int option = getValidChoice(sc, 1, 3);
-
+               Reports rep = new Reports();
             switch (option) {
                 case 1:
-                    generateIndividualReport(sc);
+                    rep.generateIndividualReport(sc);
                     break;
                 case 2:
-                  
+                  rep. generateGeneralReport();
                     break;
                 case 3:
                     System.out.println("Exiting the Reports Menu...");
@@ -97,13 +96,14 @@ public class Reports {
 
 private void displayCitizenDetails(int citizenId) {
        config conf = new config();
-    String qry = "SELECT c.s_id, c.f_name, c.l_name, c.e_purok, c.s_contact, c.e_status, "
-            + "a.a_id, a.a_name AS ActivityName, a.a_time AS Time, a.a_location AS Location, "
-            + "att.att_date AS AttendanceDate, att.att_status AS AttendanceStatus "
-            + "FROM citizen c "
-            + "LEFT JOIN attendance att ON c.s_id = att.s_id "
-            + "LEFT JOIN activity a ON att.a_id = a.a_id "
-            + "WHERE c.s_id = " + citizenId;
+  String qry = "SELECT citizen.s_id, citizen.f_name, citizen.l_name, citizen.e_purok, citizen.s_contact, citizen.e_status, "
+        + "a.a_id, a.a_name AS a_name, a.a_time AS a_time, a.a_location AS a_location, "
+        + "att.att_date AS att_date, att.att_status AS att_status "
+        + "FROM citizen "
+        + "LEFT JOIN attendance att ON citizen.s_id = att.s_id "
+        + "LEFT JOIN activity a ON att.a_id = a.a_id "
+        + "WHERE citizen.s_id = " + citizenId;
+
 
     String[] headers = {
             "Citizen ID", "First Name", "Last Name", "Purok", "Contact", "Status",
@@ -111,10 +111,38 @@ private void displayCitizenDetails(int citizenId) {
     };
     String[] columns = {
             "s_id", "f_name", "l_name", "e_purok", "s_contact", "e_status",
-            "a_id", "ActivityName", "Time", "Location", "AttendanceDate", "AttendanceStatus"
+            "a_id", "a_name", "a_time", "a_location", "att_date", "att_status"
     };
 
  
     conf.viewRecords(qry, headers, columns);
 }
+private void generateGeneralReport() {
+    config conf = new config();
+    System.out.println("\n--- General Report ---");
+
+   
+   String qry = "SELECT citizen.s_id, citizen.f_name, citizen.l_name, citizen.e_purok, citizen.s_contact, citizen.e_status, "
+        + "a.a_id, a.a_name AS a_name, a.a_time AS a_time, a.a_location AS a_location, "
+        + "att.att_date AS att_date, att.att_status AS att_status "
+        + "FROM citizen "
+        + "LEFT JOIN attendance att ON citizen.s_id = att.s_id "
+        + "LEFT JOIN activity a ON att.a_id = a.a_id";
+
+    
+    String[] headers = {
+            "Citizen ID", "First Name", "Last Name", "Purok", "Contact", "Status",
+            "Activity ID", "Activity Name", "Time", "Location", "Attendance Date", "Attendance Status"
+    };
+
+  
+    String[] columns = {
+            "s_id", "f_name", "l_name", "e_purok", "s_contact", "e_status",
+            "a_id", "a_name", "a_time", "a_location", "att_date", "att_status"
+    };
+
+    
+    conf.viewRecords(qry, headers, columns);
+}
+
 }

@@ -17,12 +17,22 @@ public class Activities {
         System.out.println("3.UPDATE ACTIVITY");
         System.out.println("4.DELETE  ACTIVITY");
         System.out.println("5. EXIT");
-        
-        System.out.println("Enter Selection:");
-        int act = sc.nextInt();
+       int action;
+         while (true) {
+                System.out.print("Enter Selection: ");
+                if (sc.hasNextInt()) {
+                    action = sc.nextInt();
+                    if (action >= 1 && action <= 5) {
+                        break; 
+                    }
+                } else {
+                    sc.next(); 
+                }
+                System.out.println("Invalid selection,Please enter a number between 1 and 5 only.");
+            }
         
        Activities ac =new Activities();
-        switch(act){
+        switch(action){
             
             case 1:
                 ac.addActivity();
@@ -55,16 +65,43 @@ public class Activities {
      }
       public void addActivity(){
         Scanner sc = new Scanner(System.in);
-       
-        System.out.print (" Activity Name: ");
-        String aname = sc.next();
-        System.out.print (" Activity Time: ");
-        String atime = sc.next();
-        System.out.print (" Location: ");
-        String loc = sc.next();
-        System.out.print (" Activity Sponsor: ");
-        String asponsor = sc.next();
-       
+       String aname,atime,loc,asponsor;
+         while (true) {
+            System.out.print("Activity Name: ");
+            aname =sc.nextLine();
+            if (aname.matches("[a-zA-Z ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters only for the activity name.");
+            }
+        }
+         while (true) {
+            System.out.print("Activity Time: ");
+            atime =sc.nextLine();
+          if (atime.matches("[a-zA-Z0-9 ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters and numbers for activity time.");
+            }
+        }
+          while (true) {
+            System.out.print("Location: ");
+           loc = sc.nextLine();
+            if (loc.matches("[a-zA-Z ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters only for the location.");
+            }
+        }
+       while (true) {
+            System.out.print("Activity Sponsor: ");
+          asponsor = sc.nextLine();
+            if (asponsor.matches("[a-zA-Z ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters only for the sponsor.");
+            }
+        }
 
         String sql = "INSERT INTO activity (a_name, a_time, a_location,a_sponsor) VALUES (?, ?, ?, ?)";
 
@@ -89,21 +126,48 @@ public class Activities {
               System.out.println("Select Activity ID Again:");
               id=sc.nextInt();
           }
-        System.out.println ("Enter new Activity Name:");
-        String naname= sc.next();
-        System.out.println ("Enter new Time:");
-        String natime= sc.next();
-        System.out.println ("Enter new Location:");
-        String nloc= sc.next();
-        System.out.println ("Enter new Sponsor:");
-        String nasponsor= sc.next(); 
-      
-
+     String naname,natime,nloc,nasponsor;
+         while (true) {
+            System.out.print("Enter new Activity Name: ");
+            naname =sc.next();
+            if (naname.matches("[a-zA-Z ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters only for the activity name.");
+            }
+        }
+         while (true) {
+            System.out.print("Enter new Activity Time: ");
+            natime =sc.next();
+          if (natime.matches("[a-zA-Z0-9 ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters and numbers for activity time.");
+            }
+        }
+          while (true) {
+            System.out.print("Enter new Location: ");
+           nloc = sc.next();
+            if (nloc.matches("[a-zA-Z ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters only for the location.");
+            }
+        }
+       while (true) {
+            System.out.print("Enter new Activity Sponsor: ");
+          nasponsor = sc.next();
+            if (nasponsor.matches("[a-zA-Z ]+")) { 
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter letters only for the sponsor.");
+            }
+        }
 
         String qry = "UPDATE activity SET a_name = ?,a_time = ?, a_location = ?, a_sponsor = ? WHERE a_id = ?";
 
     
-        conf.updateRecord(qry, naname,natime,nloc,nasponsor);
+        conf.updateRecord(qry, naname,natime,nloc,nasponsor,id);
 
        }
           private void deleteActivity(){
