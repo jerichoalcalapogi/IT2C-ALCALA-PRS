@@ -15,21 +15,21 @@ public class IT2CALCALAPRS {
             
    
             
-        System.out.println("WELCOME TO PUROK ATTENDANCE SYSTEM");
-        System.out.println("--------------------------------------");
-        System.out.println("1. CITIZEN");
-        System.out.println("2. ACTIVITIES");
-        System.out.println("3. ATTENDANCE");
-        System.out.println("4. REPORTS");
-        System.out.println("5 .EXIT");
+        System.out.println ("WELCOME TO PUROK ATTENDANCE SYSTEM");
+        System.out.println ("--------------------------------------");
+        System.out.println ("1. CITIZEN");
+        System.out.println ("2. ACTIVITIES");
+        System.out.println ("3. ATTENDANCE");
+        System.out.println ("4. REPORTS");
+        System.out.println ("5 .EXIT");
        
-         int action;
-            while (true) {
+        int action;
+               while (true) {
                 System.out.print("Enter Action: ");
                 if (sc.hasNextInt()) {
                     action = sc.nextInt();
-                    if (action >= 1 && action <= 5) {
-                        break; 
+                if (action >= 1 && action <= 5) {
+                    break; 
                     }
                 } else {
                     sc.next(); 
@@ -51,14 +51,14 @@ public class IT2CALCALAPRS {
             att.Aimplementation();
             break;
       case 4:
-          Reports rep = new Reports();
-          rep.showReportsMenu();
-             break;           
-            case 5:
-                System.out.println("Exit Selected...type 'yes' to continue");
-                String resp=sc.next();
-                if(resp.equalsIgnoreCase("yes")){
-                exit = false;
+            Reports rep = new Reports();
+            rep.ReportsMenu();
+            break;           
+      case 5:
+            System.out.println("Exit Selected...type 'yes' to continue");
+            String resp=sc.next();
+            if(resp.equalsIgnoreCase("yes")){
+            exit = false;
                 }
                 
             break;
@@ -66,8 +66,6 @@ public class IT2CALCALAPRS {
         
                 
       }while(exit);
-        
-   
 
     }
 }

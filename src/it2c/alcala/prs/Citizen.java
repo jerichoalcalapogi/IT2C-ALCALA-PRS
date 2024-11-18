@@ -11,13 +11,13 @@ public class Citizen {
         Scanner sc=new Scanner(System.in);
         String response;
         do{
-        System.out.println("\n----------------------");
-        System.out.println("WELCOME TO CITIZEN PANEL");
-        System.out.println("1.ADD CITIZEN");
-        System.out.println("2.VIEW  CITIZEN");
-        System.out.println("3.UPDATE  CITIZEN");
-        System.out.println("4.DELETE  CITIZEN");
-        System.out.println("5. EXIT");
+        System.out.println ("\n----------------------");
+        System.out.println ("WELCOME TO CITIZEN PANEL");
+        System.out.println ("1.ADD CITIZEN");
+        System.out.println ("2.VIEW  CITIZEN");
+        System.out.println ("3.UPDATE  CITIZEN");
+        System.out.println ("4.DELETE  CITIZEN");
+        System.out.println ("5. EXIT");
           int action;
          while (true) {
                 System.out.print("Enter Selection: ");
@@ -67,50 +67,61 @@ public class Citizen {
         
    }
     
-     public void addCitizen(){
-        Scanner sc = new Scanner(System.in);
-        config conf = new config();
-        
-      String fname,lname,purok,contact,status;
-      
-        while (true) {
-            System.out.print("First Name: ");
-            fname = sc.nextLine();
-            if (fname.matches("[a-zA-Z ]+")) { 
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter letters only for the first name.");
-            }
+    public void addCitizen() {
+    Scanner sc = new Scanner(System.in);
+    config conf = new config();
+
+    String fname, lname, purok, contact, status;
+
+    while (true) {
+        System.out.print("First Name: ");
+        fname = sc.nextLine();
+        if (fname.matches("[a-zA-Z ]+")) {
+            break;
+        } else {
+            System.out.println("Invalid input. Please enter letters only for the first name.");
         }
-      
-        while (true) {
-            System.out.print("Last Name: ");
-             lname = sc.nextLine();
-            if (lname.matches("[a-zA-Z ]+")) { 
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter letters only for the last name.");
-            }
+    }
+
+    while (true) {
+        System.out.print("Last Name: ");
+        lname = sc.nextLine();
+        if (lname.matches("[a-zA-Z ]+")) {
+            break;
+        } else {
+            System.out.println("Invalid input. Please enter letters only for the last name.");
         }
-         while (true) {
-            System.out.print("Purok: ");
-             purok = sc.nextLine();
-          if (purok.matches("[a-zA-Z0-9 ]+")) { 
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter letters and numbers for purok.");
-            }
+    }
+
+    
+    String checkCitizenQuery = "SELECT COUNT(*) FROM citizen WHERE f_name = ? AND l_name = ?";
+    int count = (int) conf.getSingleValue(checkCitizenQuery, fname, lname);
+    if (count > 0) {
+        System.out.println("Citizen already exists.");
+        return; 
+    }
+
+    while (true) {
+        System.out.print("Purok: ");
+        purok = sc.nextLine();
+        if (purok.matches("[a-zA-Z0-9 ]+")) {
+            break;
+        } else {
+            System.out.println("Invalid input. Please enter letters and numbers for purok.");
         }
-         while (true) {
-            System.out.print("Contact Number: ");
-             contact = sc.nextLine();
-           if (contact.matches("\\d+")) {
-                break;
-            } else {
-                System.out.println("Invalid input. Please enter numbers only for purok.");
-            }
+    }
+
+    while (true) {
+        System.out.print("Contact Number: ");
+        contact = sc.nextLine();
+        if (contact.matches("\\d+")) {
+            break;
+        } else {
+            System.out.println("Invalid input. Please enter numbers only for contact number.");
         }
-          while (true) {
+    }
+
+    while (true) {
         System.out.print("Status (Single/Married/Divorced): ");
         status = sc.nextLine();
         if (status.equalsIgnoreCase("Single") || status.equalsIgnoreCase("Married") || status.equalsIgnoreCase("Divorced")) {
@@ -120,20 +131,16 @@ public class Citizen {
         }
     }
 
-        String sql = "INSERT INTO citizen (f_name, l_name, e_purok,s_contact, e_status) VALUES (?, ?, ?, ?,?)";
-     
-
-        conf.addRecord(sql, fname, lname, purok,contact, status);
-     
-
-    }
+    String sql = "INSERT INTO citizen (f_name, l_name, e_purok, s_contact, e_status) VALUES (?, ?, ?, ?, ?)";
+    conf.addRecord(sql, fname, lname, purok, contact, status);
+}
     
    public void viewCitizen() {
-        String citizenQuery = "SELECT * FROM citizen";
-        String [] citizenHeaders = {"ID","First Name","Last Name","Purok", "Contact","Status"};
-        String[] citizenColumns = {"s_id", "f_name", "l_name","e_purok", "s_contact", "e_status"};
-       config conf = new config();
-       conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);
+    String citizenQuery = "SELECT * FROM citizen";
+    String [] citizenHeaders = {"ID","First Name","Last Name","Purok", "Contact","Status"};
+    String[] citizenColumns = {"s_id", "f_name", "l_name","e_purok", "s_contact", "e_status"};
+    config conf = new config();
+    conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);
     }
      private void updateCitizen(){
     Scanner sc= new Scanner(System.in);   
@@ -167,6 +174,7 @@ public class Citizen {
                 System.out.println("Invalid input. Please enter letters only for the last name.");
             }
         }
+        
          while (true) {
             System.out.print("Enter new Purok: ");
              npurok = sc.next();
@@ -203,23 +211,22 @@ public class Citizen {
         conf.updateRecord(qry, nfname,nlname,npurok,ncontact,nstatus,id);
 
        }
-    private void deleteCitizen(){
+   private void deleteCitizen() {
+        Scanner sc = new Scanner(System.in);
+        config conf = new config();
 
-        Scanner sc= new Scanner(System.in);   
-         config conf = new config();
-           System.out.println("Enter citizen ID to delete:");
-           int id = sc.nextInt();
-            while(conf.getSingleValue("SELECT s_id FROM citizen  WHERE s_id=?  ",id)==0){
-              System.out.println("Selected ID doesn't exist");
-              System.out.println("Select Citizen ID Again:");
-              id=sc.nextInt();
-          }
+        System.out.print("Enter citizen ID to delete: ");
+        int id = sc.nextInt();
 
-          String sqlDelete = "DELETE FROM citizen  WHERE s_id=?";
-          
-           conf.deleteRecord(sqlDelete, id);
-      }
+        while (conf.getSingleValue("SELECT s_id FROM citizen WHERE s_id = ?", id) == 0) {
+            System.out.println("Selected ID doesn't exist.");
+            System.out.print("Select Citizen ID Again: ");
+            id = sc.nextInt();
+        }
 
-  }
+        String sqlDelete = "DELETE FROM citizen WHERE s_id = ?";
+        conf.deleteRecord(sqlDelete, id);
+    }
+}
 
     

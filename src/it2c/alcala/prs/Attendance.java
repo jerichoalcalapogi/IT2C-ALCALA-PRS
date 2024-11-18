@@ -49,6 +49,7 @@ public class Attendance {
                    att.viewAttendance();
                    att.deleteAttendance();
                    att.viewAttendance();
+                   break;
                case 5:
                 
                 break;
@@ -92,7 +93,7 @@ public class Attendance {
     
     while (true) {
         System.out.print("Enter attendance date (YYYY-MM-DD): ");
-        datee = sc.next(); // Use nextLine() for date input
+        datee = sc.next(); 
         if (datee.matches("\\d{4}-\\d{2}-\\d{2}")) { 
             break; 
         } else {
@@ -103,7 +104,7 @@ public class Attendance {
    
     while (true) {
         System.out.print("Status (Present/Absent): ");
-        status = sc.next(); // Use nextLine() for status input
+        status = sc.next(); 
         if (status.equalsIgnoreCase("Present") || status.equalsIgnoreCase("Absent")) {
             break; 
         } else {

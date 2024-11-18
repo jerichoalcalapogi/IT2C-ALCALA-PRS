@@ -6,57 +6,62 @@ import java.util.Scanner;
 
 
 public class Reports {
-   public void showReportsMenu() {
+   public void ReportsMenu() {
         Scanner sc = new Scanner(System.in);
-        String choice;
+        String response;
 
         do {
             System.out.println("\n========== REPORTS MENU ==========");
             System.out.println("1. Individual Citizen Report");
             System.out.println("2. General Report");
             System.out.println("3. Exit");
-            System.out.print("Enter your choice: ");
-
-            int option = getValidChoice(sc, 1, 3);
+             int action;
+               while (true) {
+                System.out.print("Enter your choice: ");
+                if (sc.hasNextInt()) {
+                    action = sc.nextInt();
+                if (action >= 1 && action <= 3) {
+                    break; 
+                    }
+                } else {
+                    sc.next(); 
+                }
+                System.out.println("Invalid selection,Please enter a number between 1 and 3 only.");
+            }
+          
                Reports rep = new Reports();
-            switch (option) {
+            switch (action) {
                 case 1:
-                    rep.generateIndividualReport(sc);
+                    rep.individualReport(sc);
                     break;
                 case 2:
-                  rep. generateGeneralReport();
+                  rep. generalReport();
                     break;
                 case 3:
-                    System.out.println("Exiting the Reports Menu...");
-                    return;
+                    break;
                 default:
                     System.out.println("Invalid option. Please try again.");
-            }
-
-            System.out.print("Would you like to return to the menu? (yes/no): ");
-            choice = sc.next();
-
-        } while (choice.equalsIgnoreCase("yes"));
-    }
-
-    private int getValidChoice(Scanner sc, int min, int max) {
-        int choice;
-        while (true) {
-            if (sc.hasNextInt()) {
-                choice = sc.nextInt();
-                if (choice >= min && choice <= max) {
-                    return choice;
-                } else {
-                    System.out.println("Invalid input. Please select between " + min + " and " + max + ".");
-                }
-            } else {
-                System.out.println("Invalid input. Enter a numeric value.");
-                sc.next(); 
-            }
+            
+            case 5:
+                
+                break;
+            
         }
-    }
+        System.out.println("Do you want to continue?(yes/no):");
+        response = sc.next();
+      
+        if (response.equalsIgnoreCase("no")) {
+            System.out.println("Going back to the main menu...\n");
+        
+        }  
+    }while(response.equalsIgnoreCase("yes"));
+        
+   }
 
-  private void generateIndividualReport(Scanner sc) {
+
+   
+
+  private void individualReport(Scanner sc) {
     config conf = new config();
 
     System.out.println("\n--- Individual Citizen Report ---");
@@ -68,14 +73,14 @@ public class Reports {
        conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);
     
 
-    int citizenId = getValidCitizenId(sc, conf);
+    int citizenId = validCitizenID(sc, conf);
 
   
     displayCitizenDetails(citizenId);
 }
 
 
-    private int getValidCitizenId(Scanner sc, config conf) {
+    private int validCitizenID(Scanner sc, config conf) {
         int citizenId;
         String sql = "SELECT COUNT(*) FROM citizen WHERE s_id = ?";
         while (true) {
@@ -117,9 +122,10 @@ private void displayCitizenDetails(int citizenId) {
  
     conf.viewRecords(qry, headers, columns);
 }
-private void generateGeneralReport() {
+private void generalReport() {
     config conf = new config();
     System.out.println("\n--- General Report ---");
+    
 
    
    String qry = "SELECT citizen.s_id, citizen.f_name, citizen.l_name, citizen.e_purok, citizen.s_contact, citizen.e_status, "
