@@ -55,11 +55,21 @@ public class Attendance {
                 break;
             
             }
-            System.out.print("Do you want to continue? (yes/no): ");
-            response = sc.next();
-        } while (response.equalsIgnoreCase("yes"));
+              while (true) {
+        System.out.print("Do you want to continue? (yes/no): ");
+        response = sc.next();
+        if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("no")) {
+            break; 
+        } else {
+            System.out.println("Invalid input. Please enter 'yes' or 'no'");
+        }
     }
-
+    
+    if (response.equalsIgnoreCase("no")) {
+        System.out.println("Going back to the main menu...\n");
+    }  
+} while(response.equalsIgnoreCase("yes"));
+    }
  private void addAttendance() {
     Scanner sc = new Scanner(System.in);
     config conf = new config();

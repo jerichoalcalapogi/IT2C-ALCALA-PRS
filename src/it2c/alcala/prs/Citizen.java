@@ -56,14 +56,20 @@ public class Citizen {
                 break;
             
         }
-        System.out.println("Do you want to continue?(yes/no):");
+       while (true) {
+        System.out.print("Do you want to continue? (yes/no): ");
         response = sc.next();
-      
-        if (response.equalsIgnoreCase("no")) {
-            System.out.println("Going back to the main menu...\n");
-        
-        }  
-    }while(response.equalsIgnoreCase("yes"));
+        if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("no")) {
+            break; 
+        } else {
+            System.out.println("Invalid input. Please enter 'yes' or 'no'");
+        }
+    }
+    
+    if (response.equalsIgnoreCase("no")) {
+        System.out.println("Going back to the main menu...\n");
+    }  
+} while(response.equalsIgnoreCase("yes"));
         
    }
     

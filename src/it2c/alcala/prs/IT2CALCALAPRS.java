@@ -55,7 +55,7 @@ public class IT2CALCALAPRS {
             rep.ReportsMenu();
             break;           
       case 5:
-            System.out.println("Exit Selected...type 'yes' to continue");
+            System.out.println("Exit Selected...type 'yes' to continue and 'no' to go back to main menu");
             String resp=sc.next();
             if(resp.equalsIgnoreCase("yes")){
             exit = false;
