@@ -112,21 +112,11 @@ public class Attendance {
     }
 
    
-    while (true) {
-        System.out.print("Status (Present/Absent): ");
-        status = sc.next(); 
-        if (status.equalsIgnoreCase("Present") || status.equalsIgnoreCase("Absent")) {
-            break; 
-        } else {
-            System.out.println("Invalid input. Please enter Present/Absent.");
-        }
-    }
     
     
+    String attqry = "INSERT INTO attendance (s_id, a_id, att_date) VALUES (?, ?, ?)";
     
-    String attqry = "INSERT INTO attendance (s_id, a_id, att_date, att_status) VALUES (?, ?, ?, ?)";
-    
-    conf.addRecord(attqry, String.valueOf(cid), String.valueOf(aid), datee, status);
+    conf.addRecord(attqry, String.valueOf(cid), String.valueOf(aid), datee);
     System.out.println("Attendance added successfully!");
 }
      
@@ -140,8 +130,8 @@ public class Attendance {
                 +"LEFT JOIN citizen ON citizen.s_id = attendance.s_id "
                 + "LEFT JOIN activity ON activity.a_id = attendance.a_id";
         
-        String [] citizenHeaders = {"Attendance ID","Citizen Name","Activity Name","Time", "Location","Date","Status"};
-        String[] citizenColumns = {"att_id", "l_name", "a_name","a_time", "a_location", "att_date", "att_status"};
+        String [] citizenHeaders = {"Attendance ID","Citizen Name","Activity Name","Time", "Location","Attendance Date"};
+        String[] citizenColumns = {"att_id", "l_name", "a_name","a_time", "a_location", "att_date"};
        config conf = new config();
        conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);
     }
@@ -158,7 +148,6 @@ public class Attendance {
           }
        String attdate,attstat;
     
-
     
     while (true) {
         System.out.print("Enter new attendance date (YYYY-MM-DD): ");
@@ -171,20 +160,12 @@ public class Attendance {
     }
 
    
-    while (true) {
-        System.out.print("Enter new Status (Present/Absent): ");
-       attstat = sc.next(); 
-        if (attstat.equalsIgnoreCase("Present") || attstat.equalsIgnoreCase("Absent")) {
-            break; 
-        } else {
-            System.out.println("Invalid input. Please enter Present/Absent.");
-        }
-    }
+  
     
-         String qry = "UPDATE attendance SET att_date = ?,att_status = ?  WHERE att_id = ?";
+         String qry = "UPDATE attendance SET att_date = ? WHERE att_id = ?";
 
     
-        conf.updateRecord(qry, attdate,attstat,id);      
+        conf.updateRecord(qry, attdate,id);      
    }
    
          private void deleteAttendance(){

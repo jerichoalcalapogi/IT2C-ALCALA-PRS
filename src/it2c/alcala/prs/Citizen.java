@@ -143,7 +143,7 @@ public class Citizen {
     
    public void viewCitizen() {
     String citizenQuery = "SELECT * FROM citizen";
-    String [] citizenHeaders = {"ID","First Name","Last Name","Purok", "Contact","Status"};
+    String [] citizenHeaders = {"ID","First Name","Last Name","Purok", "Contact No.","Status"};
     String[] citizenColumns = {"s_id", "f_name", "l_name","e_purok", "s_contact", "e_status"};
     config conf = new config();
     conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);

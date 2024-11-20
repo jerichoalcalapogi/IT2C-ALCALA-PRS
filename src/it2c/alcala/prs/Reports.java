@@ -71,7 +71,7 @@ public class Reports {
     System.out.println("\n--- Individual Citizen Report ---");
 
      String citizenQuery = "SELECT * FROM citizen";
-        String [] citizenHeaders = {"ID","First Name","Last Name","Purok", "Contact","Status"};
+        String [] citizenHeaders = {"ID","First Name","Last Name","Purok", "Contact No.","Status"};
         String[] citizenColumns = {"s_id", "f_name", "l_name","e_purok", "s_contact", "e_status"};
     
        conf.viewRecords(citizenQuery, citizenHeaders, citizenColumns);
@@ -115,12 +115,12 @@ private void displayCitizenDetails(int citizenId) {
 
 
     String[] headers = {
-            "Citizen ID", "First Name", "Last Name", "Purok", "Contact", "Status",
-            "Activity ID", "Activity Name", "Time", "Location", "Attendance Date", "Attendance Status"
+            "Citizen ID", "First Name", "Last Name", "Purok", "Contact No.", "Status",
+            "Activity ID", "Activity Name", "Time", "Location", "Attendance Date"
     };
     String[] columns = {
             "s_id", "f_name", "l_name", "e_purok", "s_contact", "e_status",
-            "a_id", "a_name", "a_time", "a_location", "att_date", "att_status"
+            "a_id", "a_name", "a_time", "a_location", "att_date"
     };
 
  
@@ -141,14 +141,14 @@ private void generalReport() {
 
     
     String[] headers = {
-            "Citizen ID", "First Name", "Last Name", "Purok", "Contact", "Status",
-            "Activity ID", "Activity Name", "Time", "Location", "Attendance Date", "Attendance Status"
+            "Citizen ID", "First Name", "Last Name", "Purok", "Contact No.", "Status",
+            "Activity ID", "Activity Name", "Time", "Location", "Attendance Date"
     };
 
   
     String[] columns = {
             "s_id", "f_name", "l_name", "e_purok", "s_contact", "e_status",
-            "a_id", "a_name", "a_time", "a_location", "att_date", "att_status"
+            "a_id", "a_name", "a_time", "a_location", "att_date"
     };
 
     
