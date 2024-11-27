@@ -21,7 +21,7 @@ public class IT2CALCALAPRS {
         System.out.println ("2. ACTIVITIES");
         System.out.println ("3. ATTENDANCE");
         System.out.println ("4. REPORTS");
-        System.out.println ("5 .EXIT");
+        System.out.println ("5. EXIT");
        
         int action;
                while (true) {

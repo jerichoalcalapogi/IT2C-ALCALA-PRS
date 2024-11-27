@@ -1,7 +1,12 @@
-
 package it2c.alcala.prs;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -48,7 +53,7 @@ public class Reports {
             
         }
          while (true) {
-        System.out.print("Do you want to continue? (yes/no): ");
+        System.out.print("\nDo you want to continue? (yes/no): ");
         response = sc.next();
         if (response.equalsIgnoreCase("yes") || response.equalsIgnoreCase("no")) {
             break; 
@@ -104,55 +109,87 @@ public class Reports {
     }
 
 private void displayCitizenDetails(int citizenId) {
-       config conf = new config();
-  String qry = "SELECT citizen.s_id, citizen.f_name, citizen.l_name, citizen.e_purok, citizen.s_contact, citizen.e_status, "
-        + "a.a_id, a.a_name AS a_name, a.a_time AS a_time, a.a_location AS a_location, "
-        + "att.att_date AS att_date, att.att_status AS att_status "
-        + "FROM citizen "
-        + "LEFT JOIN attendance att ON citizen.s_id = att.s_id "
-        + "LEFT JOIN activity a ON att.a_id = a.a_id "
-        + "WHERE citizen.s_id = " + citizenId;
+        config conf = new config();
+        String qry = "SELECT citizen.s_id, citizen.f_name, citizen.l_name, citizen.e_purok, citizen.s_contact, citizen.e_status, "
+                + "a.a_id AS activity_id, a.a_name AS activity_name, a.a_time AS activity_time, a.a_location AS activity_location, "
+                + "a.a_sponsor AS activity_sponsor, att.att_date AS attendance_date "
+                + "FROM citizen "
+                + "LEFT JOIN attendance att ON citizen.s_id = att.s_id "
+                + "LEFT JOIN activity a ON att.a_id = a.a_id "
+                + "WHERE citizen.s_id = " + citizenId;
+
+        System.out.println("\n--- Individual Citizen Report ---");
+
+        String citizenInfoQuery = "SELECT s_id, f_name, l_name, e_purok, s_contact, e_status FROM citizen WHERE s_id = " + citizenId;
+        try (ResultSet rs = conf.executeQuery(citizenInfoQuery)) {
+            if (rs.next()) {
+                System.out.printf("Citizen ID    : %-5d\n", rs.getInt("s_id"));
+                System.out.printf("First Name    : %-15s\n", rs.getString("f_name"));
+                System.out.printf("Last Name     : %-15s\n", rs.getString("l_name"));
+                System.out.printf("Purok         : %-15s\n", rs.getString("e_purok"));
+                System.out.printf("Contact No.   : %-15s\n", rs.getString("s_contact"));
+                System.out.printf("Status        : %-15s\n", rs.getString("e_status"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving citizen details: " + e.getMessage());
+        }
+
+        System.out.println("\n--- Activities for Citizen ID: " + citizenId + " ---");
+        String[] activityHeaders = {"Activity ID", "Activity Name", "Time", "Location", "Sponsor", "Attendance Date"};
+        String[] activityColumns = {"activity_id", "activity_name", "activity_time", "activity_location", "activity_sponsor", "attendance_date"};
+        conf.viewRecords(qry, activityHeaders, activityColumns);
+
+        System.out.println("\nSummary:");
+
+        String summaryQuery =
+                "WITH ranked_activities AS ( " +
+                "    SELECT att.att_date, a.a_name, a.a_time, " +
+                "           ROW_NUMBER() OVER (PARTITION BY att.att_date ORDER BY a.a_time ASC) AS first_rank, " +
+                "           ROW_NUMBER() OVER (PARTITION BY att.att_date ORDER BY a.a_time DESC) AS last_rank " +
+                "    FROM attendance att " +
+                "    JOIN activity a ON att.a_id = a.a_id " +
+                "    WHERE att.s_id = " + citizenId + " " +
+                ") " +
+                "SELECT COUNT(*) AS total_activities_attended, " +
+                "    (SELECT a_name FROM ranked_activities WHERE first_rank = 1 ORDER BY att_date ASC LIMIT 1) AS first_activity_name, " +
+                "    (SELECT a_name FROM ranked_activities WHERE last_rank = 1 ORDER BY att_date DESC LIMIT 1) AS last_activity_name " +
+                "FROM ranked_activities;";
+
+        try (ResultSet rs = conf.executeQuery(summaryQuery)) {
+            if (rs.next()) {
+                int totalActivities = rs.getInt("total_activities_attended");
+                String firstActivityName = rs.getString("first_activity_name");
+                String lastActivityName = rs.getString("last_activity_name");
+
+                System.out.printf(" Total  Activities Attended : %-2d\n", totalActivities);
+                System.out.printf(" First  Activity   Attended : %-15s\n", (firstActivityName != null ? firstActivityName : "No activity attended"));
+                System.out.printf(" Last   Activity   Attended : %-15s\n", (lastActivityName != null ? lastActivityName : "No activity attended"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving summary: " + e.getMessage());
+        }
+    }
 
 
-    String[] headers = {
-            "Citizen ID", "First Name", "Last Name", "Purok", "Contact No.", "Status",
-            "Activity ID", "Activity Name", "Time", "Location", "Attendance Date"
-    };
-    String[] columns = {
-            "s_id", "f_name", "l_name", "e_purok", "s_contact", "e_status",
-            "a_id", "a_name", "a_time", "a_location", "att_date"
-    };
-
- 
-    conf.viewRecords(qry, headers, columns);
-}
 private void generalReport() {
     config conf = new config();
     System.out.println("\n--- General Report ---");
-    
 
-   
-   String qry = "SELECT citizen.s_id, citizen.f_name, citizen.l_name, citizen.e_purok, citizen.s_contact, citizen.e_status, "
-        + "a.a_id, a.a_name AS a_name, a.a_time AS a_time, a.a_location AS a_location, "
-        + "att.att_date AS att_date, att.att_status AS att_status "
-        + "FROM citizen "
-        + "LEFT JOIN attendance att ON citizen.s_id = att.s_id "
-        + "LEFT JOIN activity a ON att.a_id = a.a_id";
+    String qry = "SELECT citizen.f_name, citizen.l_name, "
+                + "a.a_name AS activity_name, a.a_location AS location, "
+                + "att.att_date AS activity_date "
+                + "FROM citizen "
+                + "LEFT JOIN attendance att ON citizen.s_id = att.s_id "
+                + "LEFT JOIN activity a ON att.a_id = a.a_id";
 
-    
     String[] headers = {
-            "Citizen ID", "First Name", "Last Name", "Purok", "Contact No.", "Status",
-            "Activity ID", "Activity Name", "Time", "Location", "Attendance Date"
+            "First Name", "Last Name", "Activity Name", "Location", "Activity Date"
     };
 
-  
     String[] columns = {
-            "s_id", "f_name", "l_name", "e_purok", "s_contact", "e_status",
-            "a_id", "a_name", "a_time", "a_location", "att_date"
+            "f_name", "l_name", "activity_name", "location", "activity_date"
     };
 
-    
     conf.viewRecords(qry, headers, columns);
 }
-
 }

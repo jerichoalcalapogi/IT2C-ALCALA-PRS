@@ -174,5 +174,9 @@ private void setPreparedStatementValues(PreparedStatement pstmt, Object... value
         }
         return result;
     }
-
+public ResultSet executeQuery(String sql) throws SQLException {
+    Connection conn = this.connectDB();
+    PreparedStatement pstmt = conn.prepareStatement(sql);
+    return pstmt.executeQuery();
+}
 }
