@@ -175,12 +175,18 @@ private void generalReport() {
     config conf = new config();
     System.out.println("\n--- General Report ---");
 
-    String qry = "SELECT citizen.f_name, citizen.l_name, "
-                + "a.a_name AS activity_name, a.a_location AS location, "
-                + "att.att_date AS activity_date "
-                + "FROM citizen "
-                + "LEFT JOIN attendance att ON citizen.s_id = att.s_id "
-                + "LEFT JOIN activity a ON att.a_id = a.a_id";
+    String qry = "WITH RankedActivities AS ("
+                + "    SELECT citizen.f_name, citizen.l_name, "
+                + "           a.a_name AS activity_name, a.a_location AS location, "
+                + "           att.att_date AS activity_date, "
+                + "           ROW_NUMBER() OVER (PARTITION BY citizen.s_id ORDER BY att.att_date) AS row_num "
+                + "    FROM citizen "
+                + "    LEFT JOIN attendance att ON citizen.s_id = att.s_id "
+                + "    LEFT JOIN activity a ON att.a_id = a.a_id "
+                + ") "
+                + "SELECT f_name, l_name, activity_name, location, activity_date "
+                + "FROM RankedActivities "
+                + "WHERE row_num = 1";
 
     String[] headers = {
             "First Name", "Last Name", "Activity Name", "Location", "Activity Date"
